@@ -1,0 +1,19 @@
+﻿* Core
+	* Engine modules, with dependencies and di system
+	* Reflection helpers and caches
+	* Messaging (like unity SendMessage and BroadcastMessage)
+	* Object collections (Scenes)
+
+* GameObject class, main game loop (outside of user control)
+* Verify that pooling and components work nicely together
+* Transform component
+
+* Implement rendering using Silk.NET
+	* Immediate mode GUI
+	* Texture loading
+	* Render queue
+	* Make sure renderdoc works
+	* Shader loading
+	* Meshes and mesh loading
+	* Font and text loading / rendering
+	* UI system
