@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Miro.Core.Modules
 {
-    public interface IEngineModule
+    internal interface IEngineModule
     {
-        Type[] GetDependencies();
+        IEnumerable<Type> GetDependencies();
         void Init();
         void Update();
         void Destroy();

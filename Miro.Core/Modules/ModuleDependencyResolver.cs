@@ -7,9 +7,9 @@ using Shouldly;
 
 namespace Miro.Core.Modules
 {
-    public static class ModuleDependencyResolver
+    internal static class ModuleDependencyResolver
     {
-        public static IEngineModule[] Resolve(IEngineModule[] modules)
+        internal static IEngineModule[] Resolve(IEngineModule[] modules)
         {
             var resolved = new HashSet<Type>();
             var input = modules;
@@ -35,7 +35,7 @@ namespace Miro.Core.Modules
             foreach (var dependency in root.GetDependencies())
             {
                 var actualDep = input.SingleOrDefault(m => m.GetType() == dependency);
-
+                actualDep.ShouldNotBeNull($"Dependency of type {dependency.FullName} not found in module list.");
                 ResolveTree(actualDep, input, output, resolved);
             }
 

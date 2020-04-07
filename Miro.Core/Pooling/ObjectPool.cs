@@ -13,13 +13,9 @@ namespace Miro.Core.Pooling
         {
             for (var i = 0; i < _pool.Length; i++)
             {
-                if (!_pool[i].InUse())
-                {
-                    _pool[i].Reset();
-                    _pool[i].Create();
-
-                    return ref _pool[i];
-                }
+                if (_pool[i].InUse()) continue;
+                _pool[i].Create();
+                return ref _pool[i];
             }
 
             if (++_newIdx >= _pool.Length) Array.Resize(ref _pool, _pool.Length << 1);
@@ -36,6 +32,7 @@ namespace Miro.Core.Pooling
         public static void Destroy(ref T obj)
         {
             obj.Destroy();
+            obj.Reset();
         }
     }
 }

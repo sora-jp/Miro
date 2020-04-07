@@ -13,11 +13,13 @@ namespace Miro.Core.Pooling
         void IPoolable.Create()
         {
             m_disposed = false;
+            OnCreated();
         }
 
         void IPoolable.Destroy()
         {
             m_disposed = true;
+            OnDestroyed();
         }
 
         // TODO: Check perf, shouldn't be a problem tho
@@ -26,6 +28,8 @@ namespace Miro.Core.Pooling
             GetType().Fields(Flags.InstanceAnyVisibility).AsParallel().Where(f => f.IsWritable()).ForAll(f => f.Set(this, f.GetRawConstantValue()));
         }
 
+        protected virtual void OnCreated() { }
+        protected virtual void OnDestroyed() { }
         public virtual void Dispose() => m_disposed = true;
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using JetBrains.Annotations;
 using Miro.Core.Pooling;
 
-namespace Miro.Core.Game
+namespace Miro.Core
 {
     public class GameObject : Poolable
     {
@@ -17,7 +15,7 @@ namespace Miro.Core.Game
             if (m_components.ContainsKey(typeof(T))) 
                 throw new InvalidOperationException($"Cannot add a component which already exists. Component -> {typeof(T)}");
 
-            var component = Component.CreateComponent<T>();
+            var component = Component.CreateComponent<T>(this);
             m_components.Add(typeof(T), component);
             return component;
         }
@@ -32,10 +30,10 @@ namespace Miro.Core.Game
 
         public T GetComponent<T>() where T:Component
         {
-            if (!m_components.ContainsKey(typeof(T))) 
+            if (!m_components.TryGetValue(typeof(T), out var component)) 
                 throw new InvalidOperationException($"Component not found. Component -> {typeof(T)}");
 
-            return (T)m_components[typeof(T)];
+            return (T)component;
         }
 
         public override void Reset()

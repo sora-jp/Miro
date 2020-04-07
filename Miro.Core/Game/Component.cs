@@ -1,19 +1,26 @@
-﻿using System.Linq;
-using Fasterflect;
-using Miro.Core.Pooling;
+﻿using Miro.Core.Pooling;
 
 namespace Miro.Core
 {
     public class Component : Poolable
     {
-        internal static ref T CreateComponent<T>() where T : Component
+        public GameObject GameObject { get; set; }
+
+        internal static T CreateComponent<T>(GameObject parent) where T : Component
         {
-            return ref ObjectPool<T>.Create();
+            var component = ObjectPool<T>.Create();
+            component.GameObject = parent;
+            return component;
         }
 
         internal static void ReleaseComponent<T>(T component) where T : Component
         {
             ObjectPool<T>.Destroy(ref component);
+        }
+
+        protected override void OnDestroyed()
+        {
+            GameObject = null;
         }
     }
 }
