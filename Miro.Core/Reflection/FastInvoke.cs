@@ -10,7 +10,7 @@ namespace Miro.Core.Reflection
     {
         public static void Invoke(object obj, string methodName, params object[] args)
         {
-            obj.GetType().CallMethod(methodName, Flags.InstanceAnyDeclaredOnly, args);
+            obj.GetType().CallMethod(methodName, Flags.InstanceAnyDeclaredOnly, args); 
         }
     }
 }
